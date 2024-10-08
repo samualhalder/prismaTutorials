@@ -8,12 +8,18 @@ export const getAllPosts = async (req, res) => {
           username: true,
         },
       },
-      _count: {
-        select: {
-          comment: true,
-        },
+      comment: true,
+    },
+    orderBy: {
+      id: req.query.order,
+    },
+    where: {
+      comment_count: {
+        gt: 1,
       },
     },
+    skip: 1,
+    take: 1,
   });
   res.status(200).json(posts);
 };

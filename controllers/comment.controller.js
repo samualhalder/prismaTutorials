@@ -2,7 +2,16 @@ import prisma from "../DB/db.config.js";
 
 export const createComment = async (req, res) => {
   const { userId, postId, comment } = req.body;
-
+  await prisma.post.update({
+    where: {
+      id: Number(postId),
+    },
+    data: {
+      comment_count: {
+        increment: 1,
+      },
+    },
+  });
   const newComment = await prisma.comment.create({
     data: {
       user_id: Number(userId),
